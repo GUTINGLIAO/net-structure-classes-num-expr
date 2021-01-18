@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader
 
 from torchvision.datasets import CIFAR10, ImageNet, VisionDataset
 
-from net.instance.common_configuration import transform, DATASET_ROOT
+from net.instance.common_configuration import transform, DATASET_ROOT, IMAGE_ROOT
 
 
 class DatasetType(Enum):
@@ -28,7 +28,7 @@ class DataLoaderFactory:
 
         if dataset_type == DatasetType.IMAGENET:
             split: str = 'train' if train else 'val'
-            data_set = ImageNet(root=DATASET_ROOT,
+            data_set = ImageNet(root=IMAGE_ROOT,
                                 split=split,
                                 transform=transform)
             cls._filter_classes(class_num, data_set)
