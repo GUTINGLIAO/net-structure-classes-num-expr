@@ -24,7 +24,7 @@ class Cnn:
     :param classes: to appoint classes that you want to classify.
     """
 
-    # This project has included three dataset, i.e., CIFAR10, MINISET, IMAGENET.
+    # This project has included three dataset, I.e, CIFAR10, MINISET, IMAGENET.
     train_data_loader: DataLoader = ...
     test_data_loader: DataLoader = ...
 
