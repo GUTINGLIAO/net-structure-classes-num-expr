@@ -1,6 +1,7 @@
 from enum import Enum
 
 from net.instance.simple_cnn_cifar10 import *
+from net.instance.efficient_net_image_net import *
 
 
 class Net(Enum):
@@ -16,7 +17,7 @@ class Net(Enum):
     SIMPLE_CNN_CIFAR10_5_CLASSES = simple_cnn_cifar10_instance_5_classes
     SIMPLE_CNN_CIFAR10_10_CLASSES = simple_cnn_cifar10_instance_10_classes
 
-    EFFICIENT_NET_IMAGE_NET_2_CLASSES = 5
+    EFFICIENT_NET_IMAGE_NET_2_CLASSES = efficient_net_b0_image_net_instance_2_classes
     EFFICIENT_NET_IMAGE_NET_3_CLASSES = 6
     EFFICIENT_NET_IMAGE_NET_4_CLASSES = 7
     EFFICIENT_NET_IMAGE_NET_5_CLASSES = 8
