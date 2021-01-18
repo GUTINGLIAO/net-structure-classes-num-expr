@@ -3,6 +3,12 @@ from net.cnn import Cnn
 from net.instance.data import DataLoaderFactory, DatasetType
 from net.structure.simple import SimpleNet
 
+# TODO Move attribute classes to net.instance.data.
+
+__all__ = ['simple_cnn_cifar10_instance_2_classes', 'simple_cnn_cifar10_instance_3_classes',
+           'simple_cnn_cifar10_instance_4_classes', 'simple_cnn_cifar10_instance_5_classes',
+           'simple_cnn_cifar10_instance_10_classes']
+
 train_data_loader_2_classes = DataLoaderFactory.build(DatasetType.CIFAR10, True, 2)
 test_data_loader_2_classes = DataLoaderFactory.build(DatasetType.CIFAR10, False, 2)
 classes_2 = ('plane', 'car')
