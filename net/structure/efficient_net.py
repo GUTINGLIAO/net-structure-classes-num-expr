@@ -26,6 +26,9 @@ class VariantEfficientNet(nn.Module):
     efficientnet: EfficientNet = ...
     fc: nn.Linear = ...
 
+    def name(self):
+        return ""
+
     def __init__(self, classes_num: int, efficient_net_type: EfficientNetType):
         super().__init__()
         self.efficientnet: EfficientNet = efficient_net_type.value

@@ -48,10 +48,10 @@ class Cnn:
 
     path: str
 
-    classes: tuple
+    classes: list
 
     def __init__(self, train_data_loader: DataLoader, test_data_loader: DataLoader,
-                 net_structure: Module, path: str, classes: tuple, loss_criterion: Module,
+                 net_structure: Module, path: str, classes: list, loss_criterion: Module,
                  learning_rate: int = 0.00001, epoch: int = 10):
         self.train_data_loader = train_data_loader
         self.test_data_loader = test_data_loader
@@ -104,8 +104,8 @@ class Cnn:
             raise Exception('no trained model exists')
         self.net_structure.load_state_dict(torch.load(self.path))
 
-        class_correct = list(0. for _ in range(self.classes.__len__()))
-        class_total = list(0. for _ in range(self.classes.__len__()))
+        class_correct = list(0. for _ in range(len(self.classes)))
+        class_total = list(0. for _ in range(len(self.classes)))
 
         with torch.no_grad():
             for data in self.test_data_loader:

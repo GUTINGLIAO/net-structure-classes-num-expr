@@ -1,7 +1,6 @@
-from net import Net
 from net.cnn import Cnn
-
-net: Cnn = Net.EFFICIENT_NET_IMAGE_NET_2_CLASSES.value
+from net.instance import simple_cnn_cifar10_instance_2_classes
 
 if __name__ == '__main__':
-    net.train()
+    net: Cnn = simple_cnn_cifar10_instance_2_classes
+    net.test()
