@@ -15,8 +15,8 @@ class ResnetType(Enum):
 
 class VariantResnet(nn.Module):
 
-    resnet: ResNet = ...
-    fc: nn.Linear = ...
+    resnet: ResNet
+    fc: nn.Linear
 
     def name(self):
         return ""
@@ -27,6 +27,6 @@ class VariantResnet(nn.Module):
         self.fc = nn.Linear(1000, classes_num, bias=True)
 
     def forward(self, x):
-        x = self.efficientnet.forward(x)
+        x = self.resnet.forward(x)
         x = self.fc(x)
         return x

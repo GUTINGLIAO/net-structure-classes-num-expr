@@ -1,22 +1,33 @@
+from enum import Enum
+
 from net.cnn import Cnn
 from net.instance.data import DataLoaderFactory, DatasetType
 from net.instance.common_configuration import loss_criterion
 from net.structure.efficient_net import VariantEfficientNet, EfficientNetType
+from net.structure.resnet import VariantResnet, ResnetType
 
 __all__ = ['NetBuilder', 'simple_cnn_cifar10_instance_2_classes',
            'simple_cnn_cifar10_instance_3_classes', 'simple_cnn_cifar10_instance_4_classes',
-           'simple_cnn_cifar10_instance_5_classes', 'simple_cnn_cifar10_instance_10_classes']
+           'simple_cnn_cifar10_instance_5_classes', 'simple_cnn_cifar10_instance_10_classes',
+           'resnet_18_cifar10_instance_2_classes']
 
 from net.structure.simple import SimpleNet
 
 
-class NetBuilder():
+class NetType(Enum):
+    SIMPLE_NET = 1
+    RESNET = 2
+    EFFICIENT_NET = 3
+
+
+# TODO 继续提升可扩展性，使新增一种网络结构或者数据集更加简单
+class NetBuilder:
 
     @classmethod
     def efficient_net_instance(cls, data_set_type: DatasetType, efficient_net_type: EfficientNetType,
                                classes_num: int, epoch: int = 100, learning_rate: int = 0.00001) -> Cnn:
         test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type)
-        model_path = cls._model_path(data_set_type, 'efficient_net' + efficient_net_type.name, classes_num)
+        model_path = cls._model_path(data_set_type, efficient_net_type.name, classes_num)
         dataset = train_data_loader.dataset
 
         return Cnn(train_data_loader, test_data_loader,
@@ -28,11 +39,23 @@ class NetBuilder():
     def simple_net_instance(cls, data_set_type: DatasetType, classes_num: int, epoch: int = 100,
                             learning_rate: int = 0.00001) -> Cnn:
         test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type)
-        path = cls._model_path(data_set_type, 'simple_cnn_net', classes_num)
+        path = cls._model_path(data_set_type, 'SIMPLE_CNN_NET', classes_num)
         dataset = train_data_loader.dataset
 
         return Cnn(train_data_loader, test_data_loader, SimpleNet(classes_num),
-                   path, classes = dataset.classes, loss_criterion=loss_criterion, epoch=epoch, learning_rate=learning_rate)
+                   path, classes=dataset.classes, loss_criterion=loss_criterion, epoch=epoch,
+                   learning_rate=learning_rate)
+
+    @classmethod
+    def resnet_instance(cls, data_set_type: DatasetType, resnet_type: ResnetType, classes_num: int, epoch: int = 100,
+                        learning_rate: int = 0.00001) -> Cnn:
+        test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type)
+        path = cls._model_path(data_set_type, resnet_type.name, classes_num)
+        dataset = train_data_loader.dataset
+
+        return Cnn(train_data_loader, test_data_loader, VariantResnet(classes_num, resnet_type),
+                   path, classes=dataset.classes, loss_criterion=loss_criterion, epoch=epoch,
+                   learning_rate=learning_rate)
 
     @classmethod
     def _necessary_data(cls, classes_num, data_set_type):
@@ -54,3 +77,5 @@ simple_cnn_cifar10_instance_3_classes = NetBuilder.simple_net_instance(DatasetTy
 simple_cnn_cifar10_instance_4_classes = NetBuilder.simple_net_instance(DatasetType.CIFAR10, 4)
 simple_cnn_cifar10_instance_5_classes = NetBuilder.simple_net_instance(DatasetType.CIFAR10, 5)
 simple_cnn_cifar10_instance_10_classes = NetBuilder.simple_net_instance(DatasetType.CIFAR10, 10)
+
+resnet_18_cifar10_instance_2_classes = NetBuilder.resnet_instance(DatasetType.CIFAR10, ResnetType.RESNET18, 2)
