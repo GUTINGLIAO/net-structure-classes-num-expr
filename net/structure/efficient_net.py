@@ -5,14 +5,14 @@ from efficientnet_pytorch import EfficientNet
 
 
 class EfficientNetType(Enum):
-    B0 = EfficientNet.from_name('efficientnet-b0')
-    B1 = EfficientNet.from_name('efficientnet-b1')
-    B2 = EfficientNet.from_name('efficientnet-b2')
-    B3 = EfficientNet.from_name('efficientnet-b3')
-    B4 = EfficientNet.from_name('efficientnet-b4')
-    B5 = EfficientNet.from_name('efficientnet-b5')
-    B6 = EfficientNet.from_name('efficientnet-b6')
-    B7 = EfficientNet.from_name('efficientnet-b7')
+    EFFICIENT_NET_B0 = EfficientNet.from_name('efficientnet-b0')
+    EFFICIENT_NET_B1 = EfficientNet.from_name('efficientnet-b1')
+    EFFICIENT_NET_B2 = EfficientNet.from_name('efficientnet-b2')
+    EFFICIENT_NET_B3 = EfficientNet.from_name('efficientnet-b3')
+    EFFICIENT_NET_B4 = EfficientNet.from_name('efficientnet-b4')
+    EFFICIENT_NET_B5 = EfficientNet.from_name('efficientnet-b5')
+    EFFICIENT_NET_B6 = EfficientNet.from_name('efficientnet-b6')
+    EFFICIENT_NET_B7 = EfficientNet.from_name('efficientnet-b7')
 
 
 class VariantEfficientNet(nn.Module):
@@ -23,8 +23,8 @@ class VariantEfficientNet(nn.Module):
     binary classfication net，the number of out features will be 2.
     """
 
-    efficientnet: EfficientNet = ...
-    fc: nn.Linear = ...
+    efficientnet: EfficientNet
+    fc: nn.Linear
 
     def name(self):
         return ""
