@@ -11,6 +11,15 @@ class DatasetType(Enum):
     CIFAR10 = 0
     IMAGENET = 1
 
+    # FIXME 是否有一种更好的获取枚举值方案
+    @staticmethod
+    def convert(num):
+        for _type in DatasetType:
+            if num == _type.value:
+                return _type
+
+        raise ValueError("%r is not a valid DatasetType" % num)
+
 
 class DataLoaderFactory:
     """Factory to provide a data loader that has been processed.
@@ -52,7 +61,7 @@ class DataLoaderFactory:
     @classmethod
     def _replace(cls, data_set, imgs_new, labels_new, classes: list):
         if isinstance(data_set, CIFAR10):
-            data_set.data, data_set.targets, data_set.classes = imgs_new, labels_new,classes
+            data_set.data, data_set.targets, data_set.classes = imgs_new, labels_new, classes
         if isinstance(data_set, ImageNet):
             data_set.imgs, data_set.targets, data_set.classes = imgs_new, labels_new, classes
 
@@ -71,4 +80,3 @@ class DataLoaderFactory:
             return data_set.data
         if isinstance(data_set, ImageNet):
             return data_set.imgs
-

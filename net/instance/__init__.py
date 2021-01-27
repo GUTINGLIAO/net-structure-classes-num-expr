@@ -6,7 +6,7 @@ from net.instance.common_configuration import loss_criterion
 from net.structure.efficient_net import VariantEfficientNet, EfficientNetType
 from net.structure.resnet import VariantResnet, ResnetType
 
-__all__ = ['NetBuilder', 'simple_cnn_cifar10_instance_2_classes',
+__all__ = ['NetBuilder', 'NetType', 'simple_cnn_cifar10_instance_2_classes',
            'simple_cnn_cifar10_instance_3_classes', 'simple_cnn_cifar10_instance_4_classes',
            'simple_cnn_cifar10_instance_5_classes', 'simple_cnn_cifar10_instance_10_classes',
            'resnet_18_cifar10_instance_2_classes']
@@ -79,3 +79,12 @@ simple_cnn_cifar10_instance_5_classes = NetBuilder.simple_net_instance(DatasetTy
 simple_cnn_cifar10_instance_10_classes = NetBuilder.simple_net_instance(DatasetType.CIFAR10, 10)
 
 resnet_18_cifar10_instance_2_classes = NetBuilder.resnet_instance(DatasetType.CIFAR10, ResnetType.RESNET18, 2)
+
+instance_dict = {
+    0: ('SIMPLE_CNN_CIFAR10_INSTANCE_2_CLASSES', simple_cnn_cifar10_instance_2_classes),
+    1: ('SIMPLE_CNN_CIFAR10_INSTANCE_3_CLASSES', simple_cnn_cifar10_instance_3_classes),
+    2: ('SIMPLE_CNN_CIFAR10_INSTANCE_4_CLASSES', simple_cnn_cifar10_instance_4_classes),
+    3: ('SIMPLE_CNN_CIFAR10_INSTANCE_5_CLASSES', simple_cnn_cifar10_instance_5_classes),
+    4: ('SIMPLE_CNN_CIFAR10_INSTANCE_10_CLASSES', simple_cnn_cifar10_instance_10_classes),
+    5: ('RESNET_CIFAR10_INSTANCE_2_CLASSES', resnet_18_cifar10_instance_2_classes)
+}
