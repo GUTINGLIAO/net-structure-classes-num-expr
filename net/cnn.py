@@ -1,3 +1,4 @@
+import logging
 import os
 
 import torch
@@ -5,7 +6,10 @@ from torch.nn import Module
 from torch.optim import SGD, Optimizer
 from torch.utils.data import DataLoader
 
+from util.log import get_logger
 from util.time import now
+
+logger = get_logger()
 
 
 class Cnn:
@@ -65,6 +69,7 @@ class Cnn:
 
     def train(self):
 
+        logger.info('Start training')
         if os.path.exists(self.path):
             print('model has existed')
             self.net_structure.load_state_dict(torch.load(self.path))
@@ -95,6 +100,7 @@ class Cnn:
             print('finish epoch %d at %s' % (epoch + 1, now()))
 
             torch.save(self.net_structure.state_dict(), self.path)
+            logger.info("Train model: %s, epoch: %d" % (self.path, epoch))
 
             print('model is saved')
 
