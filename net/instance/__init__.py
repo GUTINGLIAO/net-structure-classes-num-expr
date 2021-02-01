@@ -79,6 +79,10 @@ simple_cnn_cifar10_instance_5_classes = NetBuilder.simple_net_instance(DatasetTy
 simple_cnn_cifar10_instance_10_classes = NetBuilder.simple_net_instance(DatasetType.CIFAR10, 10)
 
 resnet_18_cifar10_instance_2_classes = NetBuilder.resnet_instance(DatasetType.CIFAR10, ResnetType.RESNET18, 2)
+resnet_18_cifar10_instance_3_classes = NetBuilder.resnet_instance(DatasetType.CIFAR10, ResnetType.RESNET18, 3)
+resnet_18_cifar10_instance_4_classes = NetBuilder.resnet_instance(DatasetType.CIFAR10, ResnetType.RESNET18, 4)
+resnet_18_cifar10_instance_5_classes = NetBuilder.resnet_instance(DatasetType.CIFAR10, ResnetType.RESNET18, 5)
+resnet_18_cifar10_instance_10_classes = NetBuilder.resnet_instance(DatasetType.CIFAR10, ResnetType.RESNET18, 10)
 
 instance_dict = {
     0: ('SIMPLE_CNN_CIFAR10_INSTANCE_2_CLASSES', simple_cnn_cifar10_instance_2_classes),
@@ -86,5 +90,9 @@ instance_dict = {
     2: ('SIMPLE_CNN_CIFAR10_INSTANCE_4_CLASSES', simple_cnn_cifar10_instance_4_classes),
     3: ('SIMPLE_CNN_CIFAR10_INSTANCE_5_CLASSES', simple_cnn_cifar10_instance_5_classes),
     4: ('SIMPLE_CNN_CIFAR10_INSTANCE_10_CLASSES', simple_cnn_cifar10_instance_10_classes),
-    5: ('RESNET_CIFAR10_INSTANCE_2_CLASSES', resnet_18_cifar10_instance_2_classes)
+    5: ('RESNET_CIFAR10_INSTANCE_2_CLASSES', resnet_18_cifar10_instance_2_classes),
+    6: ('RESNET_CIFAR10_INSTANCE_3_CLASSES', resnet_18_cifar10_instance_3_classes),
+    7: ('RESNET_CIFAR10_INSTANCE_4_CLASSES', resnet_18_cifar10_instance_4_classes),
+    8: ('RESNET_CIFAR10_INSTANCE_5_CLASSES', resnet_18_cifar10_instance_5_classes),
+    9: ('RESNET_CIFAR10_INSTANCE_10_CLASSES', resnet_18_cifar10_instance_10_classes)
 }
