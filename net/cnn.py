@@ -1,4 +1,3 @@
-import logging
 import os
 
 import torch
@@ -10,6 +9,7 @@ from util.log import get_logger
 from util.time import now
 
 logger = get_logger()
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
 class Cnn:
@@ -69,6 +69,8 @@ class Cnn:
 
     def train(self):
 
+        self.net_structure.to(device)
+
         logger.info('Start training')
         if os.path.exists(self.path):
             print('model has existed')
@@ -80,7 +82,7 @@ class Cnn:
             running_loss = 0.0
             for i, data in enumerate(self.train_data_loader, 0):
                 # get the inputs; data is a list of [inputs, labels]
-                inputs, labels = data
+                inputs, labels = data[0].to(device), data[1].to(device)
                 # zero the parameter gradients
                 self.optimizer.zero_grad()
 
@@ -112,6 +114,8 @@ class Cnn:
 
         class_correct = list(0. for _ in range(len(self.classes)))
         class_total = list(0. for _ in range(len(self.classes)))
+        all_correct = 0
+        all_total = 0
 
         with torch.no_grad():
             for data in self.test_data_loader:
@@ -123,8 +127,12 @@ class Cnn:
                 for i in range(4):
                     label = labels[i]
                     class_correct[label] += c[i].item()
+                    all_correct += c[i].item()
                     class_total[label] += 1
+                    all_total += 1
 
             for i in range(self.classes.__len__()):
                 print('Accuracy of %5s : %2d %%' % (
                     self.classes[i], 100 * class_correct[i] / class_total[i]))
+            print('Accuracy of all : %2d %%' % (
+                100 * all_correct / all_total))
