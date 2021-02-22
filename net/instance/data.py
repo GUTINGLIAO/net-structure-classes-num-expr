@@ -8,8 +8,8 @@ from net.instance.common_configuration import transform, DATASET_ROOT
 
 
 class DatasetType(Enum):
-    CIFAR10 = 0
-    IMAGENET = 1
+    CIFAR10 = 1
+    IMAGENET = 2
 
     # FIXME 是否有一种更好的获取枚举值方案
     @staticmethod
