@@ -11,6 +11,3 @@ transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5
 
 loss_criterion: Module = CrossEntropyLoss()
 
-if __name__ == '__main__':
-    print(DATASET_ROOT)
-
