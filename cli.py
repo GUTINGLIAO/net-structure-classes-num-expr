@@ -49,7 +49,7 @@ def resource():
 @click.option('--instance', default=-1, help='Appoint existed instance.')
 @click.option('--lr', default=0.00001, help='Appoint learning rate, default is 0.00001.')
 @click.option('--epoch', default=100, help='Appoint learning epoch, default is 100.')
-def train(net: int, type: int, dataset: int, classes_num: int, instance: int, lr: int):
+def train(net: int, type: int, dataset: int, classes_num: int, instance: int, lr: int, epoch: int):
     if net == -1 and instance == -1:
         raise ValueError('Please create a new instance or appoint a existed instance.')
     if net == -1:
@@ -58,7 +58,7 @@ def train(net: int, type: int, dataset: int, classes_num: int, instance: int, lr
         return
     if net == NetType.SIMPLE_NET.value:
         NetBuilder.simple_net_instance(classes_num=classes_num, data_set_type=DatasetType.convert(dataset),
-                                       learning_rate=lr)
+                                       learning_rate=lr, epoch=epoch)
         return
 
     if type == -1:
@@ -66,12 +66,13 @@ def train(net: int, type: int, dataset: int, classes_num: int, instance: int, lr
 
     if net == NetType.RESNET.value:
         NetBuilder.resnet_instance(classes_num=classes_num, data_set_type=DatasetType.convert(dataset),
-                                   resnet_type=ResnetType.convert(type), learning_rate=lr)
+                                   resnet_type=ResnetType.convert(type), learning_rate=lr, epoch=epoch)
         return
 
     if net == NetType.EFFICIENT_NET.value:
         NetBuilder.efficient_net_instance(classes_num=classes_num, data_set_type=DatasetType.convert(dataset),
-                                          efficient_net_type=EfficientNetType.convert(type), learning_rate=lr)
+                                          efficient_net_type=EfficientNetType.convert(type), learning_rate=lr,
+                                          epoch=epoch)
 
 
 # FIXME 是否有更好的实现
