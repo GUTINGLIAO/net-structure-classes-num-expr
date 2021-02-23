@@ -9,7 +9,7 @@ from net.structure.resnet import VariantResnet, ResnetType
 __all__ = ['NetBuilder', 'NetType', 'simple_cnn_cifar10_instance_2_classes',
            'simple_cnn_cifar10_instance_3_classes', 'simple_cnn_cifar10_instance_4_classes',
            'simple_cnn_cifar10_instance_5_classes', 'simple_cnn_cifar10_instance_10_classes',
-           'resnet_18_cifar10_instance_2_classes']
+           'resnet_18_cifar10_instance_2_classes', 'instance_dict']
 
 from net.structure.simple import SimpleNet
 
