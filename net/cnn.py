@@ -106,6 +106,8 @@ class Cnn:
 
             print('model is saved')
 
+            self.test()
+
     def test(self):
 
         self.net_structure.to(device)
