@@ -71,14 +71,14 @@ class Cnn:
 
         self.net_structure.to(device)
 
-        logger.info('Start training')
+        _log('Start training')
         if os.path.exists(self.path):
-            print('model has existed')
+            _log('model has existed')
             self.net_structure.load_state_dict(torch.load(self.path))
 
         for epoch in range(self.epoch):  # loop over the dataset multiple times
 
-            print('start epoch %d at %s' % (epoch + 1, now()))
+            _log('start epoch %d at %s' % (epoch + 1, now()))
             running_loss = 0.0
             for i, data in enumerate(self.train_data_loader, 0):
                 # get the inputs; data is a list of [inputs, labels]
@@ -95,16 +95,15 @@ class Cnn:
                 # print statistics
                 running_loss += loss.item()
                 if i % 1000 == 999:  # print every 1000 mini-batches
-                    print('[%d, %5d] loss: %.3f' %
-                          (epoch + 1, i + 1, running_loss / 1000))
+                    _log('[%d, %5d] loss: %.3f' %
+                         (epoch + 1, i + 1, running_loss / 1000))
                     running_loss = 0.0
 
-            print('finish epoch %d at %s' % (epoch + 1, now()))
+            _log('finish epoch %d at %s' % (epoch + 1, now()))
 
             torch.save(self.net_structure.state_dict(), self.path)
-            logger.info("Train model: %s, epoch: %d" % (self.path, epoch))
 
-            print('model is saved')
+            _log('model is saved')
 
             self.test()
 
@@ -136,7 +135,12 @@ class Cnn:
                     all_total += 1
 
             for i in range(self.classes.__len__()):
-                print('Accuracy of %5s : %2d %%' % (
+                _log('Accuracy of %5s : %2d %%' % (
                     self.classes[i], 100 * class_correct[i] / class_total[i]))
-            print('Accuracy of all : %2d %%' % (
-                100 * all_correct / all_total))
+            _log('Accuracy of all : %2d %%' % (
+                    100 * all_correct / all_total))
+
+
+def _log(msg: str):
+    print(msg)
+    logger.info(msg)
