@@ -108,6 +108,8 @@ class Cnn:
 
     def test(self):
 
+        self.net_structure.to(device)
+
         if not os.path.exists(self.path):
             raise Exception('no trained model exists')
         self.net_structure.load_state_dict(torch.load(self.path))
@@ -119,7 +121,7 @@ class Cnn:
 
         with torch.no_grad():
             for data in self.test_data_loader:
-                images, labels = data
+                images, labels = data[0].to(device), data[1].to(device)
                 outputs = self.net_structure(images)
                 _, predicted = torch.max(outputs, 1)
 
