@@ -25,8 +25,9 @@ class NetBuilder:
 
     @classmethod
     def efficient_net_instance(cls, data_set_type: DatasetType, efficient_net_type: EfficientNetType,
-                               classes_num: int, epoch: int = 100, learning_rate: int = 0.00001) -> Cnn:
-        test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type)
+                               classes_num: int, epoch: int = 100, learning_rate: int = 0.00001,
+                               batch_size: int = 4) -> Cnn:
+        test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type, batch_size)
         model_path = cls._model_path(data_set_type, efficient_net_type.name, classes_num)
         dataset = train_data_loader.dataset
 
@@ -37,8 +38,8 @@ class NetBuilder:
 
     @classmethod
     def simple_net_instance(cls, data_set_type: DatasetType, classes_num: int, epoch: int = 100,
-                            learning_rate: int = 0.00001) -> Cnn:
-        test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type)
+                            learning_rate: int = 0.00001, batch_size: int = 4) -> Cnn:
+        test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type, batch_size)
         path = cls._model_path(data_set_type, 'SIMPLE_CNN_NET', classes_num)
         dataset = train_data_loader.dataset
 
@@ -48,8 +49,8 @@ class NetBuilder:
 
     @classmethod
     def resnet_instance(cls, data_set_type: DatasetType, resnet_type: ResnetType, classes_num: int, epoch: int = 100,
-                        learning_rate: int = 0.00001) -> Cnn:
-        test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type)
+                        learning_rate: int = 0.00001, batch_size: int = 4) -> Cnn:
+        test_data_loader, train_data_loader = cls._necessary_data(classes_num, data_set_type, batch_size)
         path = cls._model_path(data_set_type, resnet_type.name, classes_num)
         dataset = train_data_loader.dataset
 
@@ -58,9 +59,9 @@ class NetBuilder:
                    learning_rate=learning_rate)
 
     @classmethod
-    def _necessary_data(cls, classes_num, data_set_type):
-        train_data_loader = DataLoaderFactory.build(data_set_type, True, classes_num)
-        test_data_loader = DataLoaderFactory.build(data_set_type, False, classes_num)
+    def _necessary_data(cls, classes_num, data_set_type: DatasetType, batch_size: int):
+        train_data_loader = DataLoaderFactory.build(data_set_type, True, classes_num, batch_size)
+        test_data_loader = DataLoaderFactory.build(data_set_type, False, classes_num, batch_size)
         return test_data_loader, train_data_loader
 
     @classmethod

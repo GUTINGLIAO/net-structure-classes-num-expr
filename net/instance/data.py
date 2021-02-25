@@ -28,12 +28,12 @@ class DataLoaderFactory:
     """
 
     @classmethod
-    def build(cls, dataset_type: DatasetType, train: bool, class_num: int) -> DataLoader:
+    def build(cls, dataset_type: DatasetType, train: bool, class_num: int, batch_size: int) -> DataLoader:
         if dataset_type == DatasetType.CIFAR10:
             data_set = CIFAR10(root=DATASET_ROOT, train=train, download=False,
                                transform=transform)
             cls._filter_classes(class_num, data_set)
-            return DataLoader(data_set, batch_size=4, shuffle=True, num_workers=2)
+            return DataLoader(data_set, batch_size=batch_size, shuffle=True, num_workers=2)
 
         if dataset_type == DatasetType.IMAGENET:
             split: str = 'train' if train else 'val'
@@ -41,7 +41,7 @@ class DataLoaderFactory:
                                 split=split,
                                 transform=transform)
             cls._filter_classes(class_num, data_set)
-            return DataLoader(data_set, batch_size=4, shuffle=True, num_workers=2)
+            return DataLoader(data_set, batch_size=batch_size, shuffle=True, num_workers=2)
 
     @classmethod
     def _filter_classes(cls, classes_num, data_set):

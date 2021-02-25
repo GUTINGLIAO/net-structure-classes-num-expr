@@ -49,26 +49,27 @@ def resource():
 @click.option('--instance', default=-1, help='Appoint existed instance.')
 @click.option('--lr', default=0.00001, help='Appoint learning rate, default is 0.00001.')
 @click.option('--epoch', default=100, help='Appoint learning epoch, default is 100.')
+@click.option('--batch', default=4, help='Appoint batch size')
 @click.option('--log', default='runtime.log', help='Appoint log file')
-def train(net: int, kind: int, dataset: int, classes_num: int, instance: int, lr: int, epoch: int, log: str):
+def train(net: int, kind: int, dataset: int, classes_num: int, instance: int, lr: int, epoch: int, log: str,
+          batch: int):
     change_log_file_name(log)
 
     if net == -1 and instance == -1:
         raise ValueError('Please create a new instance or appoint a existed instance.')
 
-    net_instance = _obtain_instance(classes_num, dataset, epoch, instance, kind, lr, net)
+    net_instance = _obtain_instance(classes_num, dataset, epoch, instance, kind, lr, net, batch)
 
     net_instance.train()
-    net_instance.test()
 
 
-def _obtain_instance(classes_num, dataset, epoch, instance, kind, lr, net):
+def _obtain_instance(classes_num, dataset, epoch, instance, kind, lr, net, batch_size: int):
     if net == -1:
         return instance_dict[instance][1]
     if net == NetType.SIMPLE_NET.value:
         return NetBuilder.simple_net_instance(classes_num=classes_num,
                                               data_set_type=DatasetType.convert(dataset),
-                                              learning_rate=lr, epoch=epoch)
+                                              learning_rate=lr, epoch=epoch, batch_size=batch_size)
     if kind == -1:
         raise ValueError('Please appoint a specific net type')
 
@@ -76,13 +77,13 @@ def _obtain_instance(classes_num, dataset, epoch, instance, kind, lr, net):
         return NetBuilder.resnet_instance(classes_num=classes_num,
                                           data_set_type=DatasetType.convert(dataset),
                                           resnet_type=ResnetType.convert(kind), learning_rate=lr,
-                                          epoch=epoch)
+                                          epoch=epoch, batch_size=batch_size)
     if net == NetType.EFFICIENT_NET.value:
         return NetBuilder.efficient_net_instance(classes_num=classes_num,
                                                  data_set_type=DatasetType.convert(dataset),
                                                  efficient_net_type=EfficientNetType.convert(kind),
                                                  learning_rate=lr,
-                                                 epoch=epoch)
+                                                 epoch=epoch, batch_size=batch_size)
 
 
 # FIXME 是否有更好的实现
