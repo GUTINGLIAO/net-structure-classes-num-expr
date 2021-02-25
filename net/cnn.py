@@ -12,6 +12,7 @@ logger = get_logger()
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
+# TODO 新增准确率变化曲线
 class Cnn:
     """A complete data structure for using a cnn.
 
@@ -135,9 +136,9 @@ class Cnn:
                     all_total += 1
 
             for i in range(self.classes.__len__()):
-                _log('Accuracy of %5s : %2d %%' % (
+                _log('Accuracy of %5s : %f %%' % (
                     self.classes[i], 100 * class_correct[i] / class_total[i]))
-            _log('Accuracy of all : %2d %%' % (
+            _log('Accuracy of all : %f %%' % (
                     100 * all_correct / all_total))
 
 
