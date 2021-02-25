@@ -5,6 +5,7 @@ from net.instance import NetType, NetBuilder, instance_dict
 from net.structure.resnet import ResnetType
 from net.structure.efficient_net import EfficientNetType
 from net.instance.data import DatasetType
+from util.log import change_log_file_name
 
 
 @click.group()
@@ -48,7 +49,10 @@ def resource():
 @click.option('--instance', default=-1, help='Appoint existed instance.')
 @click.option('--lr', default=0.00001, help='Appoint learning rate, default is 0.00001.')
 @click.option('--epoch', default=100, help='Appoint learning epoch, default is 100.')
-def train(net: int, kind: int, dataset: int, classes_num: int, instance: int, lr: int, epoch: int):
+@click.option('--log', default='runtime.log', help='Appoint log file')
+def train(net: int, kind: int, dataset: int, classes_num: int, instance: int, lr: int, epoch: int, log: str):
+    change_log_file_name(log)
+
     if net == -1 and instance == -1:
         raise ValueError('Please create a new instance or appoint a existed instance.')
 

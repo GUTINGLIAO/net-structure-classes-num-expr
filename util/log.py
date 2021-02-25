@@ -46,14 +46,26 @@ def get_logger(name=None):
         # 如果路径不存在，创建日志文件文件夹
         log_dir = dirname(LOG_PATH)
         if not exists(log_dir): makedirs(log_dir)
-        # 添加 FileHandler
-        file_handler = logging.FileHandler(LOG_PATH, encoding='utf-8')
-        file_handler.setLevel(level=LOG_LEVEL)
-        formatter = logging.Formatter(LOG_FORMAT)
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
+        _add_file_handler(logger)
 
     # 保存到全局 loggers
     loggers[name] = logger
     return logger
+
+
+def _add_file_handler(logger):
+    # 添加 FileHandler
+    file_handler = logging.FileHandler(LOG_PATH, encoding='utf-8')
+    file_handler.setLevel(level=LOG_LEVEL)
+    formatter = logging.Formatter(LOG_FORMAT)
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+
+
+def change_log_file_name(name: str):
+    global LOG_PATH
+    LOG_PATH = Path.joinpath(Path(__file__).parents[1], 'log/%s' % name)
+    logger = get_logger()
+    _add_file_handler(logger)
+
 
