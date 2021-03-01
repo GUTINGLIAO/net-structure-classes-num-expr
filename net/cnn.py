@@ -12,7 +12,7 @@ logger = get_logger()
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 
-# TODO 新增准确率变化曲线
+# TODO 新增可视化准确率变化曲线，loss变化曲线，训练集准确率
 class Cnn:
     """A complete data structure for using a cnn.
 
@@ -95,10 +95,9 @@ class Cnn:
 
                 # print statistics
                 running_loss += loss.item()
-                if i % 1000 == 999:  # print every 1000 mini-batches
-                    _log('[%d, %5d] loss: %.3f' %
-                         (epoch + 1, i + 1, running_loss / 1000))
-                    running_loss = 0.0
+
+            # every epoch print the loss of every mini-batch
+            _log('loss: %f' % (12000 / self.train_data_loader.batch_size))
 
             _log('finish epoch %d at %s' % (epoch + 1, now()))
 
@@ -113,7 +112,7 @@ class Cnn:
         self.net_structure.to(device)
 
         if not os.path.exists(self.path):
-            raise Exception('no trained model exists')
+            raise Exception('no trained a exists')
         self.net_structure.load_state_dict(torch.load(self.path))
 
         class_correct = list(0. for _ in range(len(self.classes)))
@@ -128,16 +127,16 @@ class Cnn:
                 _, predicted = torch.max(outputs, 1)
 
                 c = (predicted == labels).squeeze()
-                for i in range(4):
+                for i in range(len(labels)):
                     label = labels[i]
                     class_correct[label] += c[i].item()
                     all_correct += c[i].item()
                     class_total[label] += 1
                     all_total += 1
 
-            for i in range(self.classes.__len__()):
-                _log('Accuracy of %5s : %f %%' % (
-                    self.classes[i], 100 * class_correct[i] / class_total[i]))
+            # for i in range(self.classes.__len__()):
+            #     _log('Accuracy of %5s : %f %%' % (
+            #         self.classes[i], 100 * class_correct[i] / class_total[i]))
             _log('Accuracy of all : %f %%' % (
                     100 * all_correct / all_total))
 
