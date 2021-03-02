@@ -4,15 +4,16 @@ import torch
 from torch.nn import Module
 from torch.optim import SGD, Optimizer
 from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
 
 from util.log import get_logger
 from util.time import now
 
 logger = get_logger()
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+writer = SummaryWriter()
 
 
-# TODO 新增可视化准确率变化曲线，loss变化曲线，训练集准确率
 class Cnn:
     """A complete data structure for using a cnn.
 
@@ -97,7 +98,9 @@ class Cnn:
                 running_loss += loss.item()
 
             # every epoch print the loss of every mini-batch
-            _log('loss: %f' % (12000 / self.train_data_loader.batch_size))
+            loss = running_loss / (12000 / self.train_data_loader.batch_size)
+            _log('loss: %f' % loss)
+            writer.add_scalar('Loss/train', loss, epoch)
 
             _log('finish epoch %d at %s' % (epoch + 1, now()))
 
@@ -105,9 +108,9 @@ class Cnn:
 
             _log('model is saved')
 
-            self.test()
+            self.test(epoch=epoch + 1)
 
-    def test(self):
+    def test(self, epoch: int = -1):
 
         self.net_structure.to(device)
 
@@ -137,8 +140,10 @@ class Cnn:
             # for i in range(self.classes.__len__()):
             #     _log('Accuracy of %5s : %f %%' % (
             #         self.classes[i], 100 * class_correct[i] / class_total[i]))
-            _log('Accuracy of all : %f %%' % (
-                    100 * all_correct / all_total))
+            acc = 100 * all_correct / all_total
+            _log('Accuracy of all : %f %%' % acc)
+            if epoch != -1:
+                writer.add_scalar('Accuracy/train', acc, epoch)
 
 
 def _log(msg: str):
