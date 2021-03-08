@@ -143,7 +143,7 @@ class Cnn:
             acc = 100 * all_correct / all_total
             _log('Accuracy of all : %f %%' % acc)
             if epoch != -1:
-                writer.add_scalar('Accuracy/train', acc, epoch)
+                writer.add_scalar('Accuracy/test', acc, epoch)
 
 
 def _log(msg: str):
