@@ -2,8 +2,8 @@ import click
 
 from net.cnn import Cnn
 from net.instance import NetType, NetBuilder, instance_dict
-from net.structure.resnet import ResnetType
-from net.structure.efficient_net import EfficientNetType
+from net.backbone.resnet import ResnetType
+from net.backbone.efficient_net import EfficientNetType
 from net.instance.data import DatasetType
 from util.log import change_log_file_name
 
