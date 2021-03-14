@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Any
 from torch.utils.data import DataLoader
 
-from torchvision.datasets import CIFAR10, ImageNet, VisionDataset
+from torchvision.datasets import CIFAR10, CIFAR100, ImageNet, VisionDataset
 
 from net.instance.common_configuration import transform, DATASET_ROOT
 
@@ -10,6 +10,7 @@ from net.instance.common_configuration import transform, DATASET_ROOT
 class DatasetType(Enum):
     CIFAR10 = 1
     IMAGENET = 2
+    CIFAR100 = 3
 
     # FIXME 是否有一种更好的获取枚举值方案
     @staticmethod
@@ -40,6 +41,11 @@ class DataLoaderFactory:
             data_set = ImageNet(root=DATASET_ROOT,
                                 split=split,
                                 transform=transform)
+            cls._filter_classes(class_num, data_set)
+            return DataLoader(data_set, batch_size=batch_size, shuffle=True, num_workers=2)
+
+        if dataset_type == DatasetType.CIFAR100:
+            data_set = CIFAR100(root=DATASET_ROOT, train=train, download=False, transform=transform)
             cls._filter_classes(class_num, data_set)
             return DataLoader(data_set, batch_size=batch_size, shuffle=True, num_workers=2)
 

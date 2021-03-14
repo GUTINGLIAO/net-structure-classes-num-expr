@@ -3,15 +3,15 @@ from enum import Enum
 from net.cnn import Cnn
 from net.instance.data import DataLoaderFactory, DatasetType
 from net.instance.common_configuration import loss_criterion
-from net.structure.efficient_net import VariantEfficientNet, EfficientNetType
-from net.structure.resnet import VariantResnet, ResnetType
+from net.backbone.efficient_net import VariantEfficientNet, EfficientNetType
+from net.backbone.resnet import VariantResnet, ResnetType
 
 __all__ = ['NetBuilder', 'NetType', 'simple_cnn_cifar10_instance_2_classes',
            'simple_cnn_cifar10_instance_3_classes', 'simple_cnn_cifar10_instance_4_classes',
            'simple_cnn_cifar10_instance_5_classes', 'simple_cnn_cifar10_instance_10_classes',
            'resnet_18_cifar10_instance_2_classes', 'instance_dict']
 
-from net.structure.simple import SimpleNet
+from net.backbone.simple import SimpleNet
 
 
 class NetType(Enum):
