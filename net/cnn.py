@@ -15,13 +15,13 @@ writer = SummaryWriter()
 
 
 class Cnn:
-    """A complete data structure for using a cnn.
+    """A complete data backbone for using a cnn.
 
     This class contains all necessary configuration to train and test a cnn.
 
     :param train_data_loader: A data loader that provides training data.
     :param test_data_loader: A data loader that provides testing data.
-    :param net_structure: neural net structure without pretrained.
+    :param net_structure: neural net backbone without pretrained.
     :param learning_rate: this param decides how fast can the net approach the extreme point.
     :param epoch: this param decides how many time the net is trained.
     :param loss_criterion: this param provide a function to calculate the loss.
@@ -67,7 +67,7 @@ class Cnn:
         self.learning_rate = learning_rate
         self.epoch = epoch
         self.loss_criterion = loss_criterion
-        self.optimizer = SGD(self.net_structure.parameters(), learning_rate, momentum=0.9)
+        self.optimizer = SGD(self.net_structure.parameters(), lr=learning_rate, momentum=0.9, weight_decay=5e-4)
 
     def train(self):
 
