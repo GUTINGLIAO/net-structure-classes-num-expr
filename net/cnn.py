@@ -2,7 +2,7 @@ import os
 
 import torch
 from torch.nn import Module
-from torch.optim import SGD, Optimizer
+from torch.optim import SGD, Optimizer, lr_scheduler
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
@@ -68,6 +68,7 @@ class Cnn:
         self.epoch = epoch
         self.loss_criterion = loss_criterion
         self.optimizer = SGD(self.net_structure.parameters(), lr=learning_rate, momentum=0.9, weight_decay=5e-4)
+        self.scheduler = lr_scheduler.MultiStepLR(self.optimizer, milestones=[100, 160, 220], gamma=0.1)
 
     def train(self):
 
@@ -107,6 +108,8 @@ class Cnn:
             torch.save(self.net_structure.state_dict(), self.path)
 
             _log('model is saved')
+
+            self.scheduler.step()
 
             self.test(epoch=epoch + 1)
 
